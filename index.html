@@ -78,3 +78,54 @@
             document.getElementById('loginForm').style.display = 'block';
             document.getElementById('registerForm').style.display = 'none';
         }
+
+        function redirectToIndex2() {
+            window.location.href = 'index2.html'; // Redirige al usuario a index2.html
+        }
+
+        function register() {
+            var registerUsername = document.getElementById('registerUsername').value;
+            var registerEmail = document.getElementById('registerEmail').value;
+            var registerPassword = document.getElementById('registerPassword').value;
+
+            // Obtener la dirección IP del usuario
+            var ip = '127.0.0.1'; // Aquí deberías obtener la dirección IP del usuario de alguna manera (no es posible obtenerla desde el navegador directamente)
+
+            // Verificar si ya hay una cuenta registrada con la misma dirección IP
+            var existingUser = users.find(user => user.ip === ip);
+            if (existingUser) {
+                alert('Ya hay una cuenta registrada desde esta dirección IP.');
+                return;
+            }
+
+            // Si no hay una cuenta registrada con la misma dirección IP, procede con el registro
+            var newUser = {
+                username: registerUsername,
+                email: registerEmail,
+                password: registerPassword,
+                ip: ip
+            };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            // Redirigir al usuario a index2.html después del registro exitoso
+            redirectToIndex2();
+        }
+
+        function login() {
+            var loginUsername = document.getElementById('loginUsername').value;
+            var loginPassword = document.getElementById('loginPassword').value;
+
+            // Verificar las credenciales de inicio de sesión
+            var user = users.find(user => user.username === loginUsername && user.password === loginPassword);
+            if (user) {
+                // Inicio de sesión exitoso
+                redirectToIndex2();
+            } else {
+                // Si las credenciales son incorrectas, mostrar un mensaje de error
+                alert('Usuario o contraseña incorrectos. Inténtalo de nuevo.');
+            }
+        }
+    </script>
+</body>
+</html>
